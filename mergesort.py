@@ -2,39 +2,53 @@ def swap(ls,x,y):
 	tmp=ls[x]
 	ls[x]=ls[y]
 	ls[y]=tmp
-def merge(a,b):
-	c=[]
-	n=len(a)
-	m=len(b)
-	i=0
-	j=0
-	while i<n and j<m:
-		if a[i]<=b[j]:
-			c.append(a[i])
-			i+=1
+def merge(ls,a,b,c):
+	n=b
+	m=c
+	x=[]
+	a0=a
+	while a<n and b<m:
+		if ls[a]<=ls[b]:
+			x.append(ls[a])
+			a+=1
 		else:
-			c.append(b[j])
-			j+=1
-	return c+a[i:]+b[j:]
-def mergesort(ls):
-#	print 'merging:',ls
-	n=len(ls)
+			x.append(ls[b])
+			b+=1
+	while a<n:
+		x.append(ls[a])
+		a+=1
+	while b<n:
+		x.append(ls[b])
+		b+=1
+	a=a0
+	for e in x:
+		ls[a]=e
+		a+=1
+	return
+def mergesort(ls,a,n):
 	if n<=1:
-		return ls
+		return
 	elif n==2:
-		if ls[0]>ls[1]:
-			swap(ls,0,1)
-		return ls
+		if ls[a]>ls[a+1]:
+			swap(ls,a,a+1)
+		return
 	mid=n/2
-	l=ls[:mid]
-	r=ls[mid:]
-	l=mergesort(l)
-	r=mergesort(r)
-	return merge(l,r)
+	mergesort(ls,a,mid)
+	mergesort(ls,a+mid,n-mid)
+	merge(ls,a,a+mid,a+n)
 import random
+ITERS=1000
 NELEMENTS=20
-ls=random.sample(xrange(NELEMENTS),NELEMENTS)
-print ls
-print 'sorting...'
-ls=mergesort(ls)
-print ls
+def sortOnce(NELEMENTS):
+	print 'generating...'
+	ls=random.sample(xrange(NELEMENTS),NELEMENTS)
+	print ls
+	print 'sorting...'
+	a=0
+	n=len(ls)
+	mergesort(ls,a,n)
+	print ls
+for i in range(ITERS):
+	print 'Iteration:',str(i)
+	sortOnce(NELEMENTS)
+	print
