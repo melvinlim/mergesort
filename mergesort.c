@@ -18,9 +18,6 @@ void merge(item *ls,int a,int b,int c){
 	int xl=c-a;
 	int n=b;
 	int m=c;
-	for(int i=0;i<xl;i++){
-		buffer[i]=-1;
-	}
 	int a0=a;
 	int xi=0;
 	while((a<n)&&(b<m)){
