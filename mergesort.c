@@ -1,13 +1,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
-
+#include<assert.h>
 #define ITERS 100
 #define NELEMENTS 20
 
 //#define printf
 
 typedef int item;
+item toBeSorted[NELEMENTS];
 item buffer[NELEMENTS];
 void swap(item *ls,int x,int y){
 	item tmp=ls[x];
@@ -52,6 +53,7 @@ void mymergesort(item *ls,int a,int n){
 	merge(ls,a,a+mid,a+n);
 }
 void generate(item *ls,int n,int x){
+	printf("generating...\n");
 	srand(time(0)+x);
 	for(int i=0;i<n;i++){
 		ls[i]=rand()%NELEMENTS;
@@ -63,21 +65,24 @@ void print(item *ls,int n){
 	}
 	printf("\n");
 }
-void sortOnce(int nElements,int x){
-	printf("generating...\n");
-	item *ls=malloc(nElements*sizeof(item));
-	generate(ls,nElements,x);
-	print(ls,nElements);
+void sortOnce(item *ls,int nElements){
 	printf("sorting...\n");
 	mymergesort(ls,0,nElements);
 	print(ls,nElements);
-	free(ls);
+}
+void test(item *ls){
+	for(int i=1;i<NELEMENTS;i++){
+		assert(ls[i-1]<=ls[i]);
+	}
 }
 int main(){
 	int i;
 	for(i=1;i<=ITERS;i++){
 		printf("Iteration: %d\n",i);
-		sortOnce(NELEMENTS,i);
+		generate(toBeSorted,NELEMENTS,i);
+		print(toBeSorted,NELEMENTS);
+		sortOnce(toBeSorted,NELEMENTS);
+		//test(toBeSorted);
 		printf("\n");
 	}
 	return 0;
