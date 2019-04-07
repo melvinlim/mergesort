@@ -2,10 +2,10 @@
 #include<stdlib.h>
 #include<time.h>
 
-#define ITERS 300000
+#define ITERS 100
 #define NELEMENTS 20
 
-#define printf
+//#define printf
 
 typedef int item;
 item buffer[NELEMENTS];
